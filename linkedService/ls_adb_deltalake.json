@@ -5,8 +5,15 @@
 		"type": "AzureDatabricksDeltaLake",
 		"typeProperties": {
 			"domain": "https://adb-4446576658651230.10.azuredatabricks.net",
-			"clusterId": "0215-162335-r5tzwbez",
-			"workspaceResourceId": "/subscriptions/30806574-69ac-417e-ab9e-1ce02a6029bc/resourceGroups/rg_edp_data-engine/providers/Microsoft.Databricks/workspaces/edp-data-engine-adb"
+			"clusterId": "0215-192215-b2i7dnhl",
+			"accessToken": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "ls_akv",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "databricks-cluster-pat"
+			}
 		}
 	}
 }
