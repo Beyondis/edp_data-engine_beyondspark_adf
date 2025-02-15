@@ -1,0 +1,12 @@
+{
+	"name": "ls_adb_deltalake",
+	"properties": {
+		"annotations": [],
+		"type": "AzureDatabricksDeltaLake",
+		"typeProperties": {
+			"domain": "https://adb-4446576658651230.10.azuredatabricks.net",
+			"clusterId": "0215-113924-ynwsdmhg",
+			"workspaceResourceId": "/subscriptions/30806574-69ac-417e-ab9e-1ce02a6029bc/resourceGroups/rg_edp_data-engine/providers/Microsoft.Databricks/workspaces/edp-data-engine-adb"
+		}
+	}
+}
