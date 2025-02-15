@@ -1,0 +1,9 @@
+{
+	"name": "edp-data-engine-adf",
+	"location": "southindia",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "ef8afa7a-828b-4831-97c7-a3c5fd634b96",
+		"tenantId": "cc69ca54-fc9d-448e-90cf-2298eccf91aa"
+	}
+}
