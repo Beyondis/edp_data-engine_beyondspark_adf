@@ -8,8 +8,8 @@
 		"annotations": [],
 		"type": "AzureDatabricksDeltaLakeDataset",
 		"typeProperties": {
-			"database": "configurations",
-			"table": "catalogs"
+			"database": "",
+			"table": ""
 		},
 		"schema": []
 	}
