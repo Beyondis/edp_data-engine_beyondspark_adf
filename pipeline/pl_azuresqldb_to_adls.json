@@ -1,0 +1,169 @@
+{
+	"name": "pl_azuresqldb_to_adls",
+	"properties": {
+		"activities": [
+			{
+				"name": "move_processed_entities",
+				"type": "ExecutePipeline",
+				"dependsOn": [],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_move_files",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"source_file_system": {
+							"value": "@pipeline().parameters.file_system",
+							"type": "Expression"
+						},
+						"source_directory": {
+							"value": "@pipeline().parameters.directory",
+							"type": "Expression"
+						},
+						"target_file_system": {
+							"value": "@pipeline().parameters.file_system",
+							"type": "Expression"
+						},
+						"target_directory": {
+							"value": "@pipeline().parameters.processed_directory",
+							"type": "Expression"
+						},
+						"file_name": {
+							"value": "@pipeline().parameters.file_name",
+							"type": "Expression"
+						}
+					}
+				}
+			},
+			{
+				"name": "sw_input_mode",
+				"type": "Switch",
+				"dependsOn": [
+					{
+						"activity": "move_processed_entities",
+						"dependencyConditions": [
+							"Succeeded",
+							"Failed"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"on": {
+						"value": "@pipeline().parameters.mode",
+						"type": "Expression"
+					},
+					"cases": [
+						{
+							"value": "table",
+							"activities": [
+								{
+									"name": "cd_table_to_parquet",
+									"type": "Copy",
+									"dependsOn": [],
+									"policy": {
+										"timeout": "0.12:00:00",
+										"retry": 0,
+										"retryIntervalInSeconds": 30,
+										"secureOutput": false,
+										"secureInput": false
+									},
+									"userProperties": [],
+									"typeProperties": {
+										"source": {
+											"type": "SqlServerSource",
+											"queryTimeout": "02:00:00",
+											"partitionOption": "None"
+										},
+										"enableStaging": false
+									},
+									"inputs": [
+										{
+											"referenceName": "ds_azure_sqldb",
+											"type": "DatasetReference",
+											"parameters": {
+												"schema": {
+													"value": "@pipeline().parameters.schema",
+													"type": "Expression"
+												},
+												"table": {
+													"value": "@pipeline().parameters.table",
+													"type": "Expression"
+												}
+											}
+										}
+									]
+								}
+							]
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"source_id": {
+				"type": "string"
+			},
+			"source_name": {
+				"type": "string"
+			},
+			"batch_id": {
+				"type": "string"
+			},
+			"batch_name": {
+				"type": "string"
+			},
+			"entity_id": {
+				"type": "string"
+			},
+			"entity_name": {
+				"type": "string"
+			},
+			"load": {
+				"type": "string"
+			},
+			"load_type": {
+				"type": "string"
+			},
+			"schema": {
+				"type": "string"
+			},
+			"mode": {
+				"type": "string"
+			},
+			"table": {
+				"type": "string"
+			},
+			"query": {
+				"type": "string"
+			},
+			"file_system": {
+				"type": "string"
+			},
+			"directory": {
+				"type": "string"
+			},
+			"file_name": {
+				"type": "string"
+			},
+			"file_format": {
+				"type": "string"
+			},
+			"source_stored_procedure": {
+				"type": "string"
+			},
+			"processed_directory": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "myETLApp/utils"
+		},
+		"annotations": []
+	}
+}
