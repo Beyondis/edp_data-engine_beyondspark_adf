@@ -1,0 +1,44 @@
+{
+	"name": "pl_myetlapp",
+	"properties": {
+		"activities": [
+			{
+				"name": "getConfigs",
+				"type": "Lookup",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "AzureDatabricksDeltaLakeSource",
+						"query": {
+							"value": "@concat(\n    'SELECT c.id, c.name, c.is_active, c.version, c.app_runtime, c.interval, c.created_by, c.created_on, ',\n    'c.updated_by, c.updated_on, c.owner, d.config_id AS dataflow_config_id, d.dataflow_name, d.enabled, ',\n    'd.load_type, d.dataflow_configs FROM edp_data_engine_adb.configurations.edp_configurations AS c ',\n    'LEFT JOIN edp_data_engine_adb.configurations.edp_configurations_dataflows AS d ON c.id = d.config_id ',\n    'WHERE c.name = ''', pipeline().parameters.AppName, ''''\n)",
+							"type": "Expression"
+						}
+					},
+					"dataset": {
+						"referenceName": "ds_adb_deltalake",
+						"type": "DatasetReference"
+					},
+					"firstRowOnly": false
+				}
+			}
+		],
+		"parameters": {
+			"AppName": {
+				"type": "string",
+				"defaultValue": "myETLApp"
+			}
+		},
+		"folder": {
+			"name": "myETLApp"
+		},
+		"annotations": []
+	}
+}
