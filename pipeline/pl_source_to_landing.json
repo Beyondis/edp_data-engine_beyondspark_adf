@@ -1,0 +1,9 @@
+{
+	"name": "pl_source_to_landing",
+	"properties": {
+		"folder": {
+			"name": "myETLApp"
+		},
+		"annotations": []
+	}
+}
