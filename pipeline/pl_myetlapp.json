@@ -30,8 +30,8 @@
 				}
 			},
 			{
-				"name": "source_to_landing",
-				"type": "ExecutePipeline",
+				"name": "Enabled",
+				"type": "IfCondition",
 				"dependsOn": [
 					{
 						"activity": "getConfigs",
@@ -40,16 +40,30 @@
 						]
 					}
 				],
-				"policy": {
-					"secureInput": false
-				},
 				"userProperties": [],
 				"typeProperties": {
-					"pipeline": {
-						"referenceName": "pl_source_to_landing",
-						"type": "PipelineReference"
+					"expression": {
+						"value": "@equals(activity('getConfigs').output.firstRow.source_to_landing, true)\n",
+						"type": "Expression"
 					},
-					"waitOnCompletion": true
+					"ifTrueActivities": [
+						{
+							"name": "source_to_landing",
+							"type": "ExecutePipeline",
+							"dependsOn": [],
+							"policy": {
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"pipeline": {
+									"referenceName": "pl_source_to_landing",
+									"type": "PipelineReference"
+								},
+								"waitOnCompletion": true
+							}
+						}
+					]
 				}
 			}
 		],
