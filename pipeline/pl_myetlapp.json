@@ -28,6 +28,29 @@
 					},
 					"firstRowOnly": false
 				}
+			},
+			{
+				"name": "source_to_landing",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "getConfigs",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "pl_source_to_landing",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
 			}
 		],
 		"parameters": {
