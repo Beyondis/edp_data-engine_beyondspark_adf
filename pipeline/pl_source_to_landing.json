@@ -1,0 +1,14 @@
+{
+	"name": "pl_source_to_landing",
+	"properties": {
+		"parameters": {
+			"dataflow_configs": {
+				"type": "string"
+			}
+		},
+		"folder": {
+			"name": "myETLApp"
+		},
+		"annotations": []
+	}
+}
